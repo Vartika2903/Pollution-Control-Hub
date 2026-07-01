@@ -374,6 +374,38 @@ p {
   padding: 0.75rem;
 }
 
+.confidence-badge {
+  display: inline-block;
+  margin-top: 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.2rem 0.55rem;
+}
+.confidence-high {
+  background: #dcfce7;
+  color: #166534;
+}
+.confidence-medium {
+  background: #fef9c3;
+  color: #854d0e;
+}
+.confidence-low {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.low-confidence-note {
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 10px;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid #fde68a;
+}
+
 .advisory-grid,
 .three-col,
 .analytics-kpis {
@@ -735,13 +767,115 @@ p {
   }
 }
 
+.scenario-simulator .sim-comparison {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.scenario-simulator .sim-current,
+.scenario-simulator .sim-estimated {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 0.8rem 1.2rem;
+  min-width: 140px;
+}
+
+.scenario-simulator .sim-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.scenario-simulator .sim-value {
+  font-size: 2.2rem;
+  font-weight: 700;
+}
+
+.scenario-simulator .sim-band {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.scenario-simulator .sim-vs {
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.scenario-simulator .sim-improvement {
+  margin-top: 0.3rem;
+  background: #16a34a;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+}
+
+.scenario-simulator .sim-sliders {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.scenario-simulator .sim-slider-group label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.scenario-simulator .sim-slider-value {
+  color: var(--brand);
+  font-weight: 700;
+}
+
+.scenario-simulator .sim-slider-group input[type='range'] {
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--line);
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+}
+
+.scenario-simulator .sim-slider-group input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: linear-gradient(120deg, var(--brand), var(--sky));
+  cursor: pointer;
+  border: 2px solid var(--card);
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.2);
+}
+
+.scenario-simulator .sim-slider-range {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 0.2rem;
+}
+
 @media (min-width: 900px) {
   .content-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .dashboard,
-  .panel:last-child {
+  .panel:last-child,
+  .scenario-simulator {
     grid-column: span 2;
   }
 }

@@ -7,6 +7,7 @@ import HealthAdvisory from './components/HealthAdvisory';
 import LocationMap from './components/LocationMap';
 import QuizSection from './components/QuizSection';
 import SolutionsAwareness from './components/SolutionsAwareness';
+import ScenarioSimulator from './components/ScenarioSimulator';
 import { CITY_COORDINATES } from './constants/cities';
 import {
   estimateWeeklyMonthlyAverages,
@@ -116,6 +117,8 @@ export default function App() {
   const [trend, setTrend] = useState([]);
   const [nearbyPoints, setNearbyPoints] = useState([]);
   const [cityComparisons, setCityComparisons] = useState([]);
+  const [confidenceScore, setConfidenceScore] = useState('High');
+  const [dataCompleteness, setDataCompleteness] = useState(100);
   const [loading, setLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [lastUpdated, setLastUpdated] = useState('');
@@ -202,6 +205,8 @@ export default function App() {
         setCurrent(aqi.current);
         setTrend(aqi.trend);
         setNearbyPoints(aqi.nearbyPoints);
+        setConfidenceScore(aqi.confidenceScore);
+        setDataCompleteness(aqi.dataCompleteness);
         setCityComparisons(cities);
         setLastUpdated(new Date().toISOString());
         setRefreshCountdown(AUTO_REFRESH_SECONDS);
@@ -253,6 +258,8 @@ export default function App() {
       setCurrent(aqi.current);
       setTrend(aqi.trend);
       setNearbyPoints(aqi.nearbyPoints);
+      setConfidenceScore(aqi.confidenceScore);
+      setDataCompleteness(aqi.dataCompleteness);
       setCityComparisons(cities);
       setLastUpdated(new Date().toISOString());
       setRefreshCountdown(AUTO_REFRESH_SECONDS);
@@ -310,12 +317,15 @@ export default function App() {
             onTimeRangeChange={setTimeRange}
             lastUpdated={lastUpdated}
             isRefreshing={isRefreshing}
+            confidenceScore={confidenceScore}
+            dataCompleteness={dataCompleteness}
           />
-          <LocationMap center={position} nearbyPoints={nearbyPoints} />
-          <AlertsPanel cityName={position.cityName} current={current} />
+          <LocationMap center={position} nearbyPoints={nearbyPoints} confidenceScore={confidenceScore} />
+          <AlertsPanel cityName={position.cityName} current={current} confidenceScore={confidenceScore} dataCompleteness={dataCompleteness} />
           <HealthAdvisory />
           <SolutionsAwareness />
           <AnalyticsInsights analytics={analytics} trend={trend} timeRange={timeRange} />
+          <ScenarioSimulator current={current} />
           <CommunityHub />
         </div>
       ) : (

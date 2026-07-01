@@ -35,6 +35,23 @@ export function buildNearbyPoints(lat, lon, usAqi) {
   }));
 }
 
+function computeConfidence(hourly, times) {
+  const POLLUTANT_FIELDS = ['pm2_5', 'pm10', 'carbon_monoxide', 'nitrogen_dioxide', 'ozone', 'us_aqi'];
+
+  const validFields = POLLUTANT_FIELDS.filter((f) => {
+    const arr = hourly[f];
+    return arr && arr.length > 0 && arr.some((v) => v != null && !isNaN(v));
+  }).length;
+
+  const dataCompleteness = Math.round((validFields / POLLUTANT_FIELDS.length) * 100);
+  const sampleRatio = Math.min(1, times.length / 24);
+  const score = dataCompleteness * 0.5 + sampleRatio * 100 * 0.5;
+
+  const confidenceScore = score >= 80 ? 'High' : score >= 50 ? 'Medium' : 'Low';
+
+  return { confidenceScore, dataCompleteness };
+}
+
 export async function fetchAirQualityByCoords(lat, lon) {
   const url = `${BASE_URL}?latitude=${lat}&longitude=${lon}&hourly=pm2_5,pm10,carbon_monoxide,nitrogen_dioxide,ozone,us_aqi&timezone=auto&forecast_days=3`;
   const response = await fetch(url);
@@ -65,10 +82,14 @@ export async function fetchAirQualityByCoords(lat, lon) {
     us_aqi: Math.round(hourly.us_aqi?.[i] ?? 0)
   }));
 
+  const { confidenceScore, dataCompleteness } = computeConfidence(hourly, times);
+
   return {
     current,
     trend,
-    nearbyPoints: buildNearbyPoints(lat, lon, current.us_aqi)
+    nearbyPoints: buildNearbyPoints(lat, lon, current.us_aqi),
+    confidenceScore,
+    dataCompleteness
   };
 }
 
