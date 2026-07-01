@@ -1,6 +1,6 @@
 import { MapContainer, TileLayer, CircleMarker, Popup } from 'react-leaflet';
 
-export default function LocationMap({ center, nearbyPoints }) {
+export default function LocationMap({ center, nearbyPoints, confidenceScore }) {
   return (
     <section className="panel">
       <div className="panel-head">
@@ -22,7 +22,7 @@ export default function LocationMap({ center, nearbyPoints }) {
               radius={Math.max(12, point.aqi / 8)}
               pathOptions={{
                 color: point.aqi > 150 ? '#b91c1c' : point.aqi > 100 ? '#f97316' : '#16a34a',
-                fillOpacity: 0.55
+                fillOpacity: confidenceScore === 'Low' ? 0.25 : 0.55
               }}
             >
               <Popup>

@@ -23,7 +23,9 @@ export default function Dashboard({
   timeRange,
   onTimeRangeChange,
   lastUpdated,
-  isRefreshing
+  isRefreshing,
+  confidenceScore,
+  dataCompleteness
 }) {
   const aqiBand = getAQIBand(current.us_aqi);
   const chartData = trend.slice(-timeRange).map((item) => ({
@@ -60,6 +62,9 @@ export default function Dashboard({
           <h3>US AQI</h3>
           <div className="kpi-value" style={{ color: aqiBand.color }}>{current.us_aqi}</div>
           <p>{aqiBand.label}</p>
+          <span className={`confidence-badge confidence-${confidenceScore?.toLowerCase()}`}>
+            {confidenceScore} ({dataCompleteness}% data)
+          </span>
         </article>
         <article className="kpi-card"><h3>PM2.5</h3><div className="kpi-value">{current.pm2_5}</div><p>ug/m3</p></article>
         <article className="kpi-card"><h3>PM10</h3><div className="kpi-value">{current.pm10}</div><p>ug/m3</p></article>
