@@ -47,7 +47,10 @@ A community-driven web app that turns raw air quality data into clear health gui
 
 Urban air pollution is a silent crisis. Raw AQI numbers exist, but most people don't know what they mean or what to do about them.
 
-**Pollution Control Hub** closes that gap by:
+### 📍 Interactive Geospatial Mapping
+- **Hotspot Map:** Built on Leaflet maps with real AQI-sampled markers. A 3×3 grid of coordinates is queried around the user's location via Open-Meteo, and the top hotspots are ranked and labeled by cardinal direction (e.g. "North-East zone").
+- **Geolocation Support:** Automatically pins the user's location to center calculations and alerts on nearest hotspots.
+- **Grid Result Caching:** Nearby grid results are cached for 5 minutes to avoid redundant API calls on rapid refreshes.
 
 1. **Visualizing complex data** — turning raw telemetry (PM2.5, PM10, CO, NO₂, Ozone) into intuitive, color-coded insights.
 2. **Contextualizing health risk** — surfacing direct advisories and prevention tips based on real-time exposure.
