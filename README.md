@@ -1,168 +1,224 @@
+<div align="center">
+
 # 🌍 Pollution Control Hub
 
-> A smart, community-focused web application designed to monitor real-time air pollution, translate complex environmental data into clear health recommendations, and empower citizens to advocate for cleaner cities.
+**Monitor. Understand. Act.**
 
----
+A community-driven web app that turns raw air quality data into clear health guidance and local climate action.
 
-<p align="center">
+<p>
   <img src="https://img.shields.io/badge/Built%20With-Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
   <img src="https://img.shields.io/badge/UI-React-61DAFB?style=for-the-badge&logo=react&logoColor=0A1A2F" alt="React" />
-  <img src="https://img.shields.io/badge/Tailwind-CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind" />
-  <img src="https://img.shields.io/badge/Project-Hackathon%20Ready-00A86B?style=for-the-badge" alt="Status" />
+  <img src="https://img.shields.io/badge/Charts-Recharts-8884d8?style=for-the-badge" alt="Recharts" />
+  <img src="https://img.shields.io/badge/Maps-Leaflet-199900?style=for-the-badge&logo=leaflet&logoColor=white" alt="Leaflet" />
   <img src="https://img.shields.io/badge/License-MIT-informational?style=for-the-badge" alt="License" />
 </p>
 
+<p>
+  <img src="https://img.shields.io/github/issues/Aditya8369/Pollution-Control-Hub?style=flat-square" alt="Issues" />
+  <img src="https://img.shields.io/github/forks/Aditya8369/Pollution-Control-Hub?style=flat-square" alt="Forks" />
+  <img src="https://img.shields.io/github/stars/Aditya8369/Pollution-Control-Hub?style=flat-square" alt="Stars" />
+  <img src="https://img.shields.io/badge/ECSoC-26-blueviolet?style=flat-square" alt="ECSoC26" />
+</p>
+
+[Report Bug](https://github.com/Aditya8369/Pollution-Control-Hub/issues) · [Request Feature](https://github.com/Aditya8369/Pollution-Control-Hub/issues) · [Contribute](CONTRIBUTING.md)
+
+</div>
+
 ---
 
+## 📑 Table of Contents
 
+- [About the Project](#-about-the-project)
+- [Key Features](#-key-features)
+- [System Architecture](#️-system-architecture)
+- [Tech Stack](#-tech-stack)
+- [Project Structure](#-project-structure)
+- [Getting Started](#-getting-started)
+- [Environment Variables](#️-environment-variables)
+- [API Integration](#-api-integration)
+- [Contributing](#-contributing)
+- [Code of Conduct](#-code-of-conduct)
+- [License](#-license)
 
-## 🚀 Why This Project
+---
 
-Urban air pollution is a silent crisis affecting millions of lives daily. While raw Air Quality Index (AQI) values are accessible, they are often hard to interpret and lack direct action paths for average citizens.
+## 🚀 About the Project
 
-**Pollution Control Hub** bridges this gap by:
-1. **Visualizing Complex Data:** Transforming raw telemetry (PM2.5, PM10, CO, NO2, Ozone) into intuitive, color-coded components.
-2. **Contextualizing Health Risks:** Providing direct medical advisories and customized prevention tips based on real-time exposure.
-3. **Fostering Community Action:** Creating a crowd-sourced mapping network where residents flag local pollution events, upload evidence, and mobilize local remediation efforts.
+Urban air pollution is a silent crisis. Raw AQI numbers exist, but most people don't know what they mean or what to do about them.
+
+**Pollution Control Hub** closes that gap by:
+
+1. **Visualizing complex data** — turning raw telemetry (PM2.5, PM10, CO, NO₂, Ozone) into intuitive, color-coded insights.
+2. **Contextualizing health risk** — surfacing direct advisories and prevention tips based on real-time exposure.
+3. **Fostering community action** — letting residents flag local pollution events and mobilize collective response.
 
 ---
 
 ## ✨ Key Features
 
-### 📊 Real-Time AQI Analytics
-- **Live Dashboard:** Dynamically fetches and updates local AQI levels using the Open-Meteo Air Quality API.
-- **Pollutant Breakdown:** Monitors and tracks specific particulates and gaseous elements:
-  - **PM2.5 / PM10:** Respiratory health threats.
-  - **NO2 / Ozone:** Traffic and industrial exhaust indicators.
-  - **Carbon Monoxide (CO):** Incomplete combustion risks.
-- **Compare Cities:** Multi-city graphical comparison interface built on React-Recharts.
-
-### 📍 Interactive Geospatial Mapping
-- **Hotspot Map:** Built on Leaflet maps with custom markers showing user-reported pollution sites.
-- **Geolocation Support:** Automatically pins the user's location to center calculations and alerts on nearest hotspots.
-
-### 🔔 Smart Alert Notification System
-- **Exceedance Alerts:** Prompts immediate browser push notifications when local AQI exceeds configured threshold limits.
-- **Exposure Timer:** Simple tracking indicator advising how long it is safe to remain outdoors based on current concentrations.
-
-### 🩺 Health & Prevention Advisories
-- **Custom Tips:** Automated medical advice (masks, air purifiers, outdoor exercise bans) tailored for children, elderly, asthmatics, and general population.
-- **Policy Watch:** Highlights environmental legislation and citizen-rights policies under relevant domestic acts.
-
-### 🤝 Community Crowdsourced Reports
-- **Flag & Upload:** Users can report local pollution events (construction dust, trash burning, vehicle exhaust) with images, location tags, and descriptions.
-- **Upvote Network:** Community upvotes elevate verified reports to prioritize city action (stored locally in `localStorage`).
+| Module | What it does |
+| :--- | :--- |
+| 📊 **Dashboard** | Live AQI readings for the selected or auto-detected city, with auto-refresh every 3 minutes. |
+| 📈 **Analytics & Insights** | Multi-city comparisons and weekly/monthly pollutant trends powered by Recharts. |
+| 🗺️ **Location Map** | Interactive Leaflet map with geolocation support and pollution hotspot markers. |
+| 🔔 **Alerts Panel** | Threshold-based exceedance warnings and safe-exposure timers. |
+| 🩺 **Health Advisory** | Tailored guidance for children, elderly, asthmatics, and the general population. |
+| 🤝 **Community Hub** | Crowd-sourced pollution reporting with upvotes, stored locally per user. |
+| 🧪 **Scenario Simulator** | Model how different conditions affect local air quality. |
+| 🌱 **Solutions & Awareness** | Actionable tips and policy context for cleaner cities. |
+| 🧠 **Quiz Section** | Short quizzes to build environmental awareness. |
 
 ---
 
-## 🗺️ System Architecture & Data Flows
+## 🗺️ System Architecture
 
 ```mermaid
 graph TD
-    A[Browser Client / User Location] -->|1. Request Local Coordinates| B(Geolocation API)
-    B -->|2. Returns Lat/Lng| A
-    A -->|3. Call with Coordinates| C{Open-Meteo API}
-    C -->|4. Return Air Quality Data| A
-    A -->|5. Read/Write Community Reports| D[(Browser LocalStorage)]
-    A -->|6. Trigger Warnings| E[Browser Notification API]
-    A -->|7. Render Analytics Charts| F[Recharts Library]
-    A -->|8. Render Interactive Marker Map| G[React Leaflet]
+    A[Browser Client] -->|1. Request Location| B(Geolocation API)
+    B -->|2. Lat/Lng| A
+    A -->|3. Fetch by Coordinates| C{Open-Meteo Air Quality API}
+    C -->|4. AQI + Pollutant Data| A
+    A -->|5. Read/Write Reports| D[(Browser LocalStorage)]
+    A -->|6. Trigger Alerts| E[Notification API]
+    A -->|7. Render Charts| F[Recharts]
+    A -->|8. Render Map| G[React Leaflet]
 ```
 
 ---
 
 ## 🧰 Tech Stack
 
-| Component | Technology | Rationale |
+| Layer | Technology | Why |
 | :--- | :--- | :--- |
-| **Framework** | **React (Vite)** | Blazing fast development server and optimized build size. |
-| **Styling** | **Tailwind CSS** | Responsive layouts, harmonized dark-mode support, and modern UI elements. |
-| **Mapping** | **React Leaflet** | High-performance open-source mapping overlay without paid API requirements. |
-| **Charts** | **Recharts** | Declarative chart components natively aligned to React hooks state. |
-| **Data Source** | **Open-Meteo API** | Non-commercial open access air quality indices with hourly resolutions. |
+| Framework | **React + Vite** | Fast dev server, optimized production build |
+| Mapping | **React Leaflet** | Open-source mapping, no paid API keys required |
+| Charts | **Recharts** | Declarative, React-native charting |
+| Data Source | **Open-Meteo Air Quality API** | Free, hourly-resolution air quality data |
+| Persistence | **LocalStorage** | Lightweight client-side storage for community reports |
 
 ---
 
-## 🔌 API Integrations
+## 📂 Project Structure
 
-The application communicates directly with the **Open-Meteo Air Quality API** to receive hourly forecasts and real-time conditions.
-
-### Sample API Request
-```bash
-https://air-quality-api.open-meteo.com/v1/air-quality?latitude=52.52&longitude=13.41&hourly=pm2_5,pm10,nitrogen_dioxide,sulphur_dioxide,ozone,carbon_monoxide,us_aqi
+```text
+Pollution-Control-Hub/
+├── src/
+│   ├── components/
+│   │   ├── AlertsPanel.jsx
+│   │   ├── AnalyticsInsights.jsx
+│   │   ├── CommunityHub.jsx
+│   │   ├── Dashboard.jsx
+│   │   ├── HealthAdvisory.jsx
+│   │   ├── LocationMap.jsx
+│   │   ├── QuizSection.jsx
+│   │   ├── ScenarioSimulator.jsx
+│   │   └── SolutionsAwareness.jsx
+│   ├── constants/cities.js
+│   ├── services/airQualityService.js
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── styles.css
+├── index.html
+├── vite.config.js
+└── package.json
 ```
 
-### Sample Response Handler
+---
+
+## 🖥️ Getting Started
+
+### Prerequisites
+- Node.js 18+
+- npm
+
+### Installation
+
+```bash
+# 1. Fork, then clone your fork
+git clone https://github.com/<your-username>/Pollution-Control-Hub.git
+cd Pollution-Control-Hub
+
+# 2. Install dependencies
+npm install
+
+# 3. Start the dev server
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+```bash
+npm run build     # Production build
+npm run preview   # Preview the production build
+```
+
+---
+
+## ⚙️ Environment Variables
+
+The app works zero-config out of the box. For custom deployments, create a `.env` file:
+
+```env
+# Notification threshold (US AQI scale, 0-500)
+VITE_ALERT_THRESHOLD=100
+
+# Fallback location if geolocation is denied (defaults to Delhi)
+VITE_DEFAULT_LAT=28.6139
+VITE_DEFAULT_LNG=77.2090
+```
+
+> **Note:** Geolocation and browser notification prompts appear on load. If denied, the app falls back to default coordinates and disables push alerts.
+
+---
+
+## 🔌 API Integration
+
+Air quality data comes from the **Open-Meteo Air Quality API**:
+
+```bash
+https://air-quality-api.open-meteo.com/v1/air-quality?latitude=28.61&longitude=77.21&hourly=pm2_5,pm10,nitrogen_dioxide,ozone,carbon_monoxide,us_aqi&current=us_aqi
+```
+
 ```javascript
 const fetchAirQuality = async (lat, lng) => {
   const response = await fetch(
     `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lng}&hourly=pm2_5,pm10,nitrogen_dioxide,ozone,carbon_monoxide,us_aqi&current=us_aqi`
   );
-  if (!response.ok) throw new Error("Failed to retrieve air quality telemetry");
+  if (!response.ok) throw new Error("Failed to retrieve air quality data");
   const data = await response.json();
-  return {
-    currentAqi: data.current.us_aqi,
-    pollutants: data.hourly,
-  };
+  return { currentAqi: data.current.us_aqi, pollutants: data.hourly };
 };
 ```
 
 ---
 
-## 🖥️ Run Locally
+## 🤝 Contributing
 
-Follow these steps to spin up the local development server:
+This project is participating in **ECSoC'26** — contributions are welcome! 🎉
 
-1. **Clone the Repository:**
-   ```bash
-   git clone https://github.com/your-username/pollution-control-hub.git
-   cd pollution-control-hub
-   ```
+1. Check the [issues](https://github.com/Aditya8369/Pollution-Control-Hub/issues) for `good first issue` or `help wanted` labels.
+2. Comment on an issue to get assigned before starting work.
+3. Follow the branch naming and commit conventions in our full guide.
 
-2. **Install Dependencies:**
-   ```bash
-   npm install
-   ```
-
-3. **Launch the Development Server:**
-   ```bash
-   npm run dev
-   ```
-
-4. **Open in Browser:**
-   Navigate to [http://localhost:5173](http://localhost:5173).
+📖 Read the complete [**Contributing Guide**](CONTRIBUTING.md) for setup, branch naming, commit conventions, and the PR process.
 
 ---
 
-## ⚙️ Environment Variables & Config
+## 🌍 Code of Conduct
 
-By default, the application is zero-config. If deploying to production or staging, you can configure the following variables in a `.env` file at the root:
-
-```env
-# Notification Threshold (US AQI Scale 0-500)
-VITE_ALERT_THRESHOLD=100
-
-# Default Location Fallback (e.g., London coordinates)
-VITE_DEFAULT_LAT=51.5074
-VITE_DEFAULT_LNG=-0.1278
-```
-
----
-
-## 📍 Notes & Permissions
-
-- **Location Services:** The app prompts for browser geolocation permissions on load. Denying permission falls back to default coordinates.
-- **Push Alerts:** Exceedance alerts require browser permission. A setup banner prompts the user to enable them during initialization.
-- **Data Persistence:** All custom community reports and voting state are sandboxed inside browser-isolated `localStorage` keys.
-
----
-
-## 🌟 Vision
-
-Our vision is to move citizens **from awareness to environmental action**. By combining live global telemetry, user-powered crowdsourced verification maps, and immediate health tips, we seek to inspire positive community policy reforms and cleaner urban living.
+Please read our [Code of Conduct](CODE_OF_CONDUCT.md) before participating in this project.
 
 ---
 
 ## 📄 License
 
-Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
+Distributed under the **MIT License**. See [LICENSE](LICENSE) for details.
+
+---
+
+<div align="center">
+
+**From awareness to action — one city at a time.** 🌱
+
+</div>
