@@ -19,3 +19,56 @@ export async function fetchCityComparisons() {
   }
   return await response.json();
 }
+
+export function estimateExposureTime(trend, currentAQI, threshold = 120) {
+
+  if (!trend.length) {
+    return null;
+  }
+
+  if (currentAQI >= threshold) {
+    return {
+      message: "Already above the recommended exposure threshold.",
+      estimated: true
+    };
+  }
+
+  const firstAQI = trend[0].us_aqi;
+  const lastAQI = trend[trend.length - 1].us_aqi;
+
+  // Average AQI change , per hour over the last 24 hrs 
+  const slope = (lastAQI - firstAQI) / (trend.length - 1);
+
+  if (slope <= 0) {
+    return {
+      message: "No immediate risk escalation expected.",
+      estimated: true
+    };
+  }
+
+  const remainingAQI = threshold - currentAQI;
+  const estimatedHours = remainingAQI / slope;
+
+  if (estimatedHours < 1) {
+
+    const estimatedMinutes = Math.max(1, Math.round(estimatedHours * 60));
+
+    return {
+      message: `Likely safe for ~${estimatedMinutes} minutes.`,
+      estimated: true
+    };
+  }
+
+  if (estimatedHours <= 24) {
+    return {
+      message: `Likely safe for ~${Math.round(estimatedHours)} hours.`,
+      estimated: true
+    };
+  }
+
+  return {
+    message: "Likely Safe for several hours",
+    estimated: true
+  };
+
+}
