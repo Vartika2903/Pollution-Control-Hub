@@ -613,6 +613,13 @@ p {
   color: var(--sky);
 }
 
+.upload-error {
+  color: var(--danger);
+  font-size: 0.85rem;
+  margin: 0;
+  padding: 0.35rem 0;
+}
+
 .error-banner {
   width: min(1180px, 94vw);
   margin: 0 auto;
