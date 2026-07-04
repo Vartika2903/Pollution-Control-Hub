@@ -128,7 +128,9 @@ export default function CommunityHub() {
           accept="image/*"
           onChange={uploadImage}
         />
-        <button type="submit">Submit Report</button>
+        <button className="w-full" type="submit">
+          Submit Report
+        </button>
       </form>
 
    <div
