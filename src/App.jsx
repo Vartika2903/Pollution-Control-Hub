@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import AlertsPanel from './components/AlertsPanel';
 import AnalyticsInsights from './components/AnalyticsInsights';
 import CommunityHub from './components/CommunityHub';
@@ -163,6 +163,7 @@ export default function App() {
   const [locationNotice, setLocationNotice] = useState('');
   const [theme, setTheme] = useState('light');
   const [timeRange, setTimeRange] = useState(24);
+  const refreshControllerRef = useRef(null);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
@@ -222,22 +223,19 @@ export default function App() {
   }, [selectedCity]);
 
   useEffect(() => {
-    let ignore = false;
+    const controller = new AbortController();
+    const { signal } = controller;
 
     const load = async (silent = false) => {
       try {
-        if (!silent) {
-          setLoading(true);
-        }
-        if (silent) {
-          setIsRefreshing(true);
-        }
+        if (!silent) setLoading(true);
+        if (silent) setIsRefreshing(true);
+
         const [aqi, cities] = await Promise.all([
-          fetchAirQualityByCoords(position.lat, position.lon),
-          fetchCityComparisons()
+          fetchAirQualityByCoords(position.lat, position.lon, signal),
+          fetchCityComparisons(signal)
         ]);
 
-        if (ignore) return;
         setCurrent(aqi.current);
         setTrend(aqi.trend);
         setNearbyPoints(aqi.nearbyPoints);
@@ -248,14 +246,11 @@ export default function App() {
         setRefreshCountdown(AUTO_REFRESH_SECONDS);
         setError('');
       } catch (loadError) {
-        if (!ignore) {
-          setError(loadError.message || 'Unable to load live AQI data.');
-        }
+        if (loadError.name === 'AbortError') return;
+        setError(loadError.message || 'Unable to load live AQI data.');
       } finally {
-        if (!ignore) {
-          setLoading(false);
-          setIsRefreshing(false);
-        }
+        setLoading(false);
+        setIsRefreshing(false);
       }
     };
 
@@ -270,7 +265,8 @@ export default function App() {
     }, 1000);
 
     return () => {
-      ignore = true;
+      controller.abort();
+      if (refreshControllerRef.current) refreshControllerRef.current.abort();
       clearInterval(refreshTimer);
       clearInterval(countdownTimer);
     };
@@ -290,11 +286,16 @@ export default function App() {
   const refreshNow = async () => {
     if (isRefreshing) return;
 
+    if (refreshControllerRef.current) refreshControllerRef.current.abort();
+    const controller = new AbortController();
+    refreshControllerRef.current = controller;
+    const { signal } = controller;
+
     try {
       setIsRefreshing(true);
       const [aqi, cities] = await Promise.all([
-        fetchAirQualityByCoords(position.lat, position.lon),
-        fetchCityComparisons()
+        fetchAirQualityByCoords(position.lat, position.lon, signal),
+        fetchCityComparisons(signal)
       ]);
       setCurrent(aqi.current);
       setTrend(aqi.trend);
@@ -305,9 +306,12 @@ export default function App() {
       setLastUpdated(new Date().toISOString());
       setRefreshCountdown(AUTO_REFRESH_SECONDS);
     } catch (loadError) {
+      if (loadError.name === 'AbortError') return;
       setError(loadError.message || 'Unable to refresh live AQI data.');
     } finally {
-      setIsRefreshing(false);
+      if (refreshControllerRef.current === controller) {
+        setIsRefreshing(false);
+      }
     }
   };
 
