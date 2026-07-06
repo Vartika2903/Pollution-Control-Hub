@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 const STORAGE_KEY = "pollution-community-reports";
+const VOTES_STORAGE_KEY = "pollution-community-voted-ids";
 const VOTE_THRESHOLD = 5;
 const X_DAYS = 7;
 
