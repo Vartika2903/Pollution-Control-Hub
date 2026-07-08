@@ -70,6 +70,7 @@ export default function Dashboard({
         <article className="kpi-card"><h3>PM10</h3><div className="kpi-value">{current.pm10}</div><p>ug/m3</p></article>
         <article className="kpi-card"><h3>CO</h3><div className="kpi-value">{current.carbon_monoxide}</div><p>ug/m3</p></article>
         <article className="kpi-card"><h3>NO2</h3><div className="kpi-value">{current.nitrogen_dioxide}</div><p>ug/m3</p></article>
+        <article className="kpi-card"><h3>Ozone</h3><div className="kpi-value">{current.ozone}</div><p>ug/m3</p></article>
       </div>
 
       <div className="chart-grid">
