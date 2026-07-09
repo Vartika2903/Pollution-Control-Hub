@@ -33,6 +33,12 @@
   --shadow-lg: 0 20px 48px rgba(15, 23, 42, 0.14);
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --accent-fill: #ffdec7;
+  --sky-fill: #e0f2fe;
+  --sky-text:  #0284c7;
+  --danger-fill: #ffcccc;
+  --danger-text:  #dc2626;
 }
 
 :root[data-theme="dark"] {
@@ -507,7 +513,7 @@ a {
 }
 
 .panel-head {
-  margin-bottom: var(--sp-5);
+  margin-bottom: var(--sp-1);
 }
 
 .panel-head h2 {
@@ -519,6 +525,20 @@ a {
   margin-top: var(--sp-2);
   font-size: 0.94rem;
 }
+.icon-container{
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  border: 1px solid var(--line);
+}
+
+.icon-container.lungs{ background: var(--accent-fill); color: var(--accent); border-color: var(--accent); }
+.icon-container.heart{ background: var(--danger-fill); color: var(--danger); border-color: var(--danger); }
+.icon-container.skin{ background: var(--sky-fill); color: var(--sky); border-color: var(--sky); }{ background: var(--sev-mod-fill); color: var(--sev-mod-line); border-color: var(--sev-mod-line); }
 
 /* ============================================================
    Exposure card
@@ -714,6 +734,9 @@ a {
   border-radius: var(--r-md);
   box-shadow: var(--shadow-sm);
   list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-2);
 }
 
 .tips-list::before {
@@ -873,14 +896,17 @@ a {
 }
 
 .advisory-card h3 {
-  margin-bottom: var(--sp-2);
-  color: var(--brand);
-  font-size: 1rem;
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 17px;
+  margin-top: 10px;
+  color: var(--ink);
 }
 
 .advisory-card p {
   color: var(--muted);
   line-height: 1.55;
+  font-size: 13.5px;
 }
 @media (max-width: 700px) {
   .advisory-grid {
@@ -1452,7 +1478,7 @@ a {
 .report-card:hover,
 .advisory-card:hover,
 .analytics-kpis article:hover,
-.quiz-selector:hover {
+.quiz-selector:hover{
   transform: translateY(-3px);
   box-shadow: var(--shadow-md);
 }
